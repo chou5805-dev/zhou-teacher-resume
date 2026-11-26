@@ -25,12 +25,16 @@
     .name { font-size:1.25rem; font-weight:800; text-decoration:none; }
     nav { display:flex; gap:16px; flex-wrap:wrap; }
     .hero { display:grid; grid-template-columns:1.15fr 1fr; gap:clamp(24px, 5vw, 72px); align-items:center; padding-block:clamp(42px, 8vw, 100px); }
+    .hero-field { position:relative; isolation:isolate; overflow:hidden; background:radial-gradient(ellipse at 88% 25%, #dbe8da, transparent 57%),radial-gradient(ellipse at 94% 92%, #f2dfc9, transparent 48%); }
+    .hero-motion { position:absolute; inset:0; z-index:-1; pointer-events:none; mask-image:linear-gradient(90deg, transparent 25%, #000 52%); }
+    .motion-control { display:block; margin-top:12px; min-height:44px; padding:.25rem .85rem; color:var(--ink); background:var(--white); border:1px solid #82948c; border-radius:10px; cursor:pointer; }
+    .motion-control[hidden] { display:none; }
     .role { font-weight:750; color:#8b3f23; margin-bottom:12px; }
     .lede { color:var(--body); font-size:1.08rem; margin-top:18px; max-width:33rem; }
     .button { display:inline-block; background:var(--ink); color:var(--white); border:0; border-radius:10px; padding:.68rem 1rem; min-height:44px; text-decoration:none; font-weight:750; cursor:pointer; }
     .button[hidden] { display:none; }
     .hero .button { margin-top:24px; }
-    .profile { background:var(--white); border:1px solid var(--rule); border-radius:22px; padding:clamp(18px, 3.5vw, 32px); box-shadow:0 12px 30px #183b3210; }
+    .profile { background:#fffdf7f0; border:1px solid var(--rule); border-radius:22px; padding:clamp(18px, 3.5vw, 32px); box-shadow:0 12px 30px #183b3210; }
     .profile h2 { font-size:1.4rem; }
     .experience-graph { position:relative; list-style:none; padding:0 0 0 43px; margin:20px 0; }
     .experience-graph::before { content:""; position:absolute; left:17px; top:16px; bottom:34px; width:2px; background:#9eb2aa; }
@@ -58,8 +62,25 @@
       .hero,.steps { grid-template-columns:1fr; }
       .wrap { width:calc(100% - 32px); }
       .course,.invite { padding-block:36px; }
+      .hero-motion { inset:auto 0 0; height:70%; mask-image:linear-gradient(180deg, transparent, #000 48%); }
+    }
+    @media (prefers-reduced-motion:reduce), print {
+      .hero-motion,.motion-control { display:none; }
     }
   </style>
+  <script type="importmap">
+  {
+    "imports": {
+      "react": "https://esm.sh/react@19.1.0",
+      "react/jsx-runtime": "https://esm.sh/react@19.1.0/jsx-runtime",
+      "react-dom": "https://esm.sh/react-dom@19.1.0?external=react",
+      "react-dom/client": "https://esm.sh/react-dom@19.1.0/client?external=react",
+      "remotion": "https://esm.sh/remotion@4.0.547?external=react,react-dom",
+      "remotion/no-react": "https://esm.sh/remotion@4.0.547/no-react?external=react,react-dom",
+      "@remotion/player": "https://esm.sh/@remotion/player@4.0.547?external=react,react-dom,remotion"
+    }
+  }
+  </script>
 </head>
 <body>
   <a class="skip" href="#main">跳至主要內容</a>
@@ -70,12 +91,15 @@
     </div>
   </header>
   <main id="main">
+    <div class="hero-field">
+    <div id="hero-motion" class="hero-motion" aria-hidden="true" inert></div>
     <section class="wrap hero" aria-labelledby="intro-title">
       <div>
         <p class="role">周老師｜退休老師</p>
         <h1 id="intro-title">我幫樂齡學校與慈善機構，帶中老年人安心把 AI 用進生活。</h1>
         <p class="lede">給平常會用 LINE、還沒用過 AI 的學員。從一句日常提問開始，練習看懂通知、找出重點，也能把自己的回憶整理成留給家人的故事。</p>
         <a class="button" href="#contact">邀請周老師開課</a>
+        <button class="motion-control" id="hero-motion-toggle" type="button" hidden>播放背景動畫</button>
       </div>
       <figure class="profile" id="experience" aria-labelledby="experience-title">
         <h2 id="experience-title">經歷與訓練</h2>
@@ -88,6 +112,7 @@
         <p class="missing">【貼上：任教學校、任職期間及工作成果】</p>
       </figure>
     </section>
+    </div>
     <section class="course" id="course" aria-labelledby="course-title">
       <div class="wrap">
         <h2 id="course-title">用 AI 讓晚年生活更精彩</h2>
@@ -149,6 +174,87 @@
         status.textContent = '已選取文字，可用裝置的複製功能複製。';
       }
     });
+  </script>
+  <script type="module">
+    const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+    const layer = document.querySelector('#hero-motion');
+    const button = document.querySelector('#hero-motion-toggle');
+    const duration = 480;
+    let player;
+    let mounting = false;
+    
+    function updateButton() {
+      button.hidden = motionPreference.matches || !player || layer.hidden;
+      button.textContent = player?.isPlaying() ? '暫停背景動畫' : '播放背景動畫';
+    }
+    
+    function showStill() {
+      layer.hidden = true;
+      updateButton();
+    }
+    
+    async function mountMotion() {
+      if (mounting || player || motionPreference.matches) return;
+      mounting = true;
+      try {
+        const [{createElement: h}, {createRoot}, {Player}, {useCurrentFrame}] = await Promise.all([
+          import('react'), import('react-dom/client'), import('@remotion/player'), import('remotion')
+        ]);
+        if (motionPreference.matches) return;
+    
+        const stops = [
+          {x: 1070, y: 105, color: '#6d9e84', form: 'M -24 -13 h 48 v 29 h -29 l -12 9 v -9 h -7 z'},
+          {x: 1370, y: 273, color: '#b67954', form: 'M -17 -8 a 18 18 0 0 1 33 -4 l 4 6 M 20 -17 v 11 h -11 M 17 8 a 18 18 0 0 1 -33 4 l -4 -6 M -20 17 v -11 h 11'},
+          {x: 1245, y: 505, color: '#74957d', form: 'M -25 -17 q 14 -8 25 3 q 11 -11 25 -3 v 32 q -14 -7 -25 3 q -11 -10 -25 -3 z M 0 -14 v 32'}
+        ];
+    
+        function LearningPath() {
+          const phase = useCurrentFrame() / duration * 2 * Math.PI;
+          return h('svg', {width:'100%', height:'100%', viewBox:'0 0 1500 600', preserveAspectRatio:'xMidYMid slice', 'aria-hidden':true},
+            h('path', {d:'M 720 46 C 1010 38 1220 45 1362 249 S 1405 483 1130 535 S 878 554 769 579', fill:'none', stroke:'#739681', strokeWidth:2, strokeOpacity:.42, strokeDasharray:'3 12'}),
+            ...stops.map(({x,y,color,form}, index) => {
+              const time = phase - index * 2 * Math.PI / stops.length;
+              const glow = (Math.cos(time) + 1) / 2;
+              return h('g', {key:index, transform:'translate(' + (x + 11 * Math.sin(time)) + ',' + (y + 12 * Math.cos(time)) + ')'},
+                h('circle', {r:96 + 21 * glow, fill:color, opacity:.14 + .14 * glow}),
+                h('circle', {r:52 + 12 * glow, fill:'none', stroke:color, strokeWidth:1.5, opacity:.42 + .34 * glow}),
+                h('path', {d:form, fill:'none', stroke:color, strokeWidth:2.8, strokeLinecap:'round', strokeLinejoin:'round', opacity:.48 + .36 * glow})
+              );
+            })
+          );
+        }
+    
+        createRoot(layer).render(h(Player, {
+          ref(instance) {
+            player = instance;
+            if (!player) return;
+            player.addEventListener('play', updateButton);
+            player.addEventListener('pause', updateButton);
+            player.addEventListener('error', showStill);
+            updateButton();
+          },
+          component:LearningPath, durationInFrames:duration, fps:30,
+          compositionWidth:1500, compositionHeight:600,
+          style:{width:'100%', height:'100%'},
+      autoPlay:!motionPreference.matches, loop:true, controls:false, initiallyMuted:true,
+          numberOfSharedAudioTags:0, allowFullscreen:false,
+          clickToPlay:false, doubleClickToFullscreen:false, errorFallback:() => null
+        }));
+      } catch (error) {
+        showStill();
+        console.warn('背景動畫載入失敗', error);
+      } finally {
+        mounting = false;
+      }
+    }
+    
+    button.addEventListener('click', (event) => player?.toggle(event));
+    motionPreference.addEventListener('change', ({matches}) => {
+      if (matches) player?.pause();
+      else if (!layer.hidden) void mountMotion();
+      updateButton();
+    });
+    void mountMotion();
   </script>
 </body>
 </html>
