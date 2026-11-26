@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="周老師的個人履歷與開課邀請，為樂齡學校與慈善機構規劃中老年人的 AI 生活入門課。">
+  <title>周老師｜樂齡 AI 課程合作</title>
+  <style>
+    :root { --paper:#f7f4eb; --ink:#183b32; --body:#364f46; --rule:#c9d2c7; --white:#fffdf7; --warm:#f8d9ba; }
+    * { box-sizing:border-box; }
+    html { scroll-padding-top:1rem; }
+    body { margin:0; color:var(--ink); background:var(--paper); font:1rem/1.75 system-ui,"Microsoft JhengHei",sans-serif; }
+    a { color:inherit; text-underline-offset:.25em; }
+    a:focus-visible,button:focus-visible,textarea:focus-visible { outline:3px solid #a24827; outline-offset:4px; }
+    button,textarea { font:inherit; }
+    h1,h2,p,figure { margin:0; }
+    h1,h2 { line-height:1.22; text-wrap:balance; }
+    h1 { font-size:clamp(2.1rem, 5.5vw, 4.35rem); letter-spacing:-.045em; }
+    h2 { font-size:clamp(1.65rem, 3.5vw, 2.6rem); letter-spacing:-.035em; }
+    .wrap { width:min(1080px, calc(100% - 40px)); margin-inline:auto; }
+    .skip { position:absolute; background:var(--white); padding:.5rem; transform:translateY(-150%); }
+    .skip:focus { z-index:1; transform:none; }
+    header { border-bottom:1px solid var(--rule); }
+    .nav { min-height:68px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px 22px; padding-block:10px; }
+    .name { font-size:1.25rem; font-weight:800; text-decoration:none; }
+    nav { display:flex; gap:16px; flex-wrap:wrap; }
+    .hero { display:grid; grid-template-columns:1.15fr 1fr; gap:clamp(24px, 5vw, 72px); align-items:center; padding-block:clamp(42px, 8vw, 100px); }
+    .role { font-weight:750; color:#8b3f23; margin-bottom:12px; }
+    .lede { color:var(--body); font-size:1.08rem; margin-top:18px; max-width:33rem; }
+    .button { display:inline-block; background:var(--ink); color:var(--white); border:0; border-radius:10px; padding:.68rem 1rem; min-height:44px; text-decoration:none; font-weight:750; cursor:pointer; }
+    .button[hidden] { display:none; }
+    .hero .button { margin-top:24px; }
+    .profile { background:var(--white); border:1px solid var(--rule); border-radius:22px; padding:clamp(18px, 3.5vw, 32px); box-shadow:0 12px 30px #183b3210; }
+    .profile h2 { font-size:1.4rem; }
+    .experience-graph { position:relative; list-style:none; padding:0 0 0 43px; margin:20px 0; }
+    .experience-graph::before { content:""; position:absolute; left:17px; top:16px; bottom:34px; width:2px; background:#9eb2aa; }
+    .experience-graph li { position:relative; padding-bottom:16px; }
+    .experience-graph li:last-child { padding-bottom:0; }
+    .experience-graph li::before { content:""; position:absolute; left:-31px; top:8px; width:12px; height:12px; border-radius:50%; background:#25604f; }
+    .experience-graph li:last-child::before { background:#a24827; }
+    .experience-graph.enhanced::before,.experience-graph.enhanced li::before { display:none; }
+    .experience-graph svg { width:36px; height:100%; position:absolute; inset:0 auto 0 0; pointer-events:none; }
+    .experience-graph strong { display:block; font-size:1.12rem; }
+    .experience-graph span,.profile figcaption,.missing { color:var(--body); }
+    .profile figcaption { font-size:.94rem; border-top:1px solid var(--rule); padding-top:12px; }
+    .course { background:var(--ink); color:var(--white); padding-block:52px; }
+    .course p { max-width:45rem; margin-top:14px; }
+    .steps { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; padding:0; list-style:none; margin:24px 0; }
+    .steps li { padding:16px; background:#265448; border-radius:12px; }
+    .steps strong { display:block; color:var(--warm); }
+    .course a { color:var(--warm); }
+    .invite { padding-block:52px; }
+    .invite p { margin-top:12px; }
+    label { display:block; margin-top:20px; font-weight:750; }
+    textarea { display:block; margin-block:7px 12px; width:min(100%, 44rem); min-height:9rem; resize:vertical; color:var(--ink); background:var(--white); border:1px solid #858f85; border-radius:10px; padding:12px; }
+    #copy-status { display:block; min-height:1.75em; margin-top:7px; }
+    @media (max-width:690px) {
+      .hero,.steps { grid-template-columns:1fr; }
+      .wrap { width:calc(100% - 32px); }
+      .course,.invite { padding-block:36px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">跳至主要內容</a>
+  <header id="top">
+    <div class="wrap nav">
+      <a class="name" href="#top">周老師</a>
+      <nav aria-label="頁面導覽"><a href="#experience">經歷與訓練</a><a href="#course">課程</a><a href="#contact">開課邀請</a></nav>
+    </div>
+  </header>
+  <main id="main">
+    <section class="wrap hero" aria-labelledby="intro-title">
+      <div>
+        <p class="role">周老師｜退休老師</p>
+        <h1 id="intro-title">我幫樂齡學校與慈善機構，帶中老年人安心把 AI 用進生活。</h1>
+        <p class="lede">給平常會用 LINE、還沒用過 AI 的學員。從一句日常提問開始，練習看懂通知、找出重點，也能把自己的回憶整理成留給家人的故事。</p>
+        <a class="button" href="#contact">邀請周老師開課</a>
+      </div>
+      <figure class="profile" id="experience" aria-labelledby="experience-title">
+        <h2 id="experience-title">經歷與訓練</h2>
+        <ul class="experience-graph">
+          <li><strong>教學經歷</strong><span>退休老師</span></li>
+          <li><strong>校園資訊經驗</strong><span>曾擔任學校資訊執秘</span></li>
+          <li><strong>AI 職訓</strong><span>勞動局 AI 職訓 125 小時</span></li>
+        </ul>
+        <figcaption>這門課結合周老師的教學背景、校園資訊經驗與 AI 職訓，從學員熟悉的生活情境帶入練習。</figcaption>
+        <p class="missing">【貼上：任教學校、任職期間及工作成果】</p>
+      </figure>
+    </section>
+    <section class="course" id="course" aria-labelledby="course-title">
+      <div class="wrap">
+        <h2 id="course-title">用 AI 讓晚年生活更精彩</h2>
+        <p>課程提供實體與線上方案。示範從學員熟悉的手機操作開始，讓學員練習提問、追問，並自己核對 AI 給出的結果。</p>
+        <ol class="steps">
+          <li><strong>先問</strong>請 AI 找出社區通知的時間、地點與要帶的東西。</li>
+          <li><strong>再追問</strong>加入自己的出門需求，請 AI 整理行前清單，再對照原文。</li>
+          <li><strong>換題活用</strong>口述一段回憶，請 AI 追問細節，整理成給家人的故事。</li>
+        </ol>
+        <p>作品與成果連結　【貼上：作品或成果連結】</p>
+      </div>
+    </section>
+    <section class="wrap invite" id="contact" aria-labelledby="invite-title">
+      <h2 id="invite-title">邀請周老師開課</h2>
+      <p>歡迎樂齡學校與慈善機構邀請周老師帶領「用 AI 讓晚年生活更精彩」課程。</p>
+      <p class="missing">聯絡方式　【貼上：合作邀請電子郵件或表單連結】</p>
+      <label for="invitation">邀請文字範本</label>
+      <textarea id="invitation" readonly>周老師您好，我們是【貼上：機構名稱】，希望邀請您開設「用 AI 讓晚年生活更精彩」課程。想與您討論【貼上：實體或線上、預計時段及學員需求】。謝謝。</textarea>
+      <button class="button" id="copy-invitation" type="button" hidden>複製邀請文字</button>
+      <output id="copy-status" aria-live="polite"></output>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script>
+    const graph = document.querySelector('.experience-graph');
+    if (window.d3) {
+      const d3 = window.d3;
+      const rows = [...graph.querySelectorAll('li')];
+      const svg = d3.select(graph).append('svg').attr('aria-hidden', 'true');
+      function draw() {
+        const bounds = graph.getBoundingClientRect();
+        const points = rows.map((row) => {
+          const box = row.querySelector('strong').getBoundingClientRect();
+          return [18, box.top - bounds.top + box.height / 2];
+        });
+        svg.attr('viewBox', '0 0 36 ' + bounds.height);
+        svg.selectAll('path').data([points]).join('path')
+          .attr('d', d3.line()).attr('fill', 'none').attr('stroke', '#9eb2aa').attr('stroke-width', 2);
+        svg.selectAll('circle').data(points).join('circle')
+          .attr('cx', ([x]) => x).attr('cy', ([, y]) => y).attr('r', 6)
+          .attr('fill', (_, i) => i === points.length - 1 ? '#a24827' : '#25604f');
+        graph.classList.add('enhanced');
+      }
+      draw();
+      if (window.ResizeObserver) new ResizeObserver(draw).observe(graph);
+      else window.addEventListener('resize', draw);
+    }
+    const copyButton = document.querySelector('#copy-invitation');
+    const message = document.querySelector('#invitation');
+    const status = document.querySelector('#copy-status');
+    copyButton.hidden = false;
+    copyButton.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(message.value);
+        status.textContent = '已複製邀請文字。';
+      } catch {
+        message.focus();
+        message.select();
+        status.textContent = '已選取文字，可用裝置的複製功能複製。';
+      }
+    });
+  </script>
+</body>
+</html>
